@@ -1,4 +1,5 @@
-FROM python:3.9-slim
+# Yahan humne Python 3.9 ko 3.11 se upgrade kar diya hai
+FROM python:3.11-slim
 
 # Install FFmpeg (Required for audio extraction)
 RUN apt-get update && apt-get install -y ffmpeg
