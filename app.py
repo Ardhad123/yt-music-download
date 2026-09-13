@@ -6,11 +6,9 @@ from PIL import Image
 import urllib.parse
 
 app = Flask(__name__)
-# CORS is CRITICAL! It allows Netlify to talk to Render
 CORS(app) 
 DOWNLOAD_FOLDER = 'downloads'
 
-# Ensure download folder exists
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
 def crop_to_square(image_path):
@@ -33,14 +31,13 @@ def process():
     if not video_url:
         return jsonify({"error": "No URL provided"}), 400
 
-    # PERMANENT FIX OPTS
+    # PURE ANDROID CLIENT - NO COOKIES - NO WEB PLAYER
     ydl_opts = {
-        'format': '140/bestaudio',  # 140 is a stable, single-file M4A (No fragments)
-        'extractor_args': {'youtube': ['player_client=tv,ios']}, # TV client bypasses SABR
-        'source_address': '0.0.0.0',  # Forces IPv4 to avoid Cloud IPv6 bans
+        'format': 'm4a/bestaudio/best', 
+        'extractor_args': {'youtube': ['player_client=android']}, # Strictly Android
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
-        'cookiefile': 'cookies.txt',
+        # COOKIE FILE YAHAN SE HATA DI GAYI HAI
         'postprocessors': [
             {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
             {'key': 'FFmpegThumbnailsConvertor', 'format': 'jpg'}
@@ -64,7 +61,6 @@ def process():
             mp3_filename = urllib.parse.quote(os.path.basename(mp3_path))
             img_filename = urllib.parse.quote(os.path.basename(square_thumb_path))
 
-            # Send back JSON instead of HTML
             return jsonify({
                 "success": True,
                 "mp3_file": mp3_filename,
@@ -82,6 +78,5 @@ def get_file(filename):
     return jsonify({"error": "File not found"}), 404
 
 if __name__ == '__main__':
-    # Render requires port 10000 by default
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
