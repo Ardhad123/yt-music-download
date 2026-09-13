@@ -37,6 +37,7 @@ def process():
         'format': 'bestaudio/best',
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
+        'cookiefile': 'cookies.txt',  # <--- YAHAN COOKIES ADD KIYA HAI
         'postprocessors': [
             {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
             {'key': 'FFmpegThumbnailsConvertor', 'format': 'jpg'}
