@@ -33,11 +33,13 @@ def process():
     if not video_url:
         return jsonify({"error": "No URL provided"}), 400
 
+    # UPDATED YDL OPTS FOR YOUTUBE SABR/HLS STREAMING FIX
     ydl_opts = {
-        'format': 'bestaudio/best',
+        'format': 'bestaudio[protocol^=http]/bestaudio/best',
+        'extractor_args': {'youtube': ['player_client=ios,android']},
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
-        'cookiefile': 'cookies.txt',  # <--- YAHAN COOKIES ADD KIYA HAI
+        'cookiefile': 'cookies.txt',
         'postprocessors': [
             {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
             {'key': 'FFmpegThumbnailsConvertor', 'format': 'jpg'}
