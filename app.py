@@ -36,7 +36,8 @@ def process():
         'extractor_args': {'youtube': ['player_client=android,ios']},
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
-        'cookiefile': 'cookies.txt',  # <--- COOKIES WAPAS LAGA DI HAIN
+        'cookiefile': 'cookies.txt',
+        'remote_components': 'npm,github',  # <--- FIX IS HERE: Permission for Challenge Solver
         'postprocessors': [
             {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
             {'key': 'FFmpegThumbnailsConvertor', 'format': 'jpg'}
