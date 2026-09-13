@@ -33,10 +33,10 @@ def process():
     if not video_url:
         return jsonify({"error": "No URL provided"}), 400
 
-    # STRICT YDL OPTS: Forces Android client to bypass Safari SABR issues completely
+    # THE ULTIMATE FIX: Force direct HTTP formats (140 or 251) 
+    # and strictly ban m3u8/SABR fragmented formats.
     ydl_opts = {
-        'format': 'bestaudio[ext=m4a]/bestaudio/best',
-        'extractor_args': {'youtube': ['player_client=android']},
+        'format': '140/251/bestaudio[protocol!=m3u8][protocol!=m3u8_native]/best',
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
         'cookiefile': 'cookies.txt',
