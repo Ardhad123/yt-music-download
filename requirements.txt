@@ -1,5 +1,6 @@
 Flask==3.0.0
 Flask-CORS==4.0.0
-yt-dlp
+https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
 Pillow
 gunicorn
+
