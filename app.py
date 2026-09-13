@@ -33,10 +33,11 @@ def process():
     if not video_url:
         return jsonify({"error": "No URL provided"}), 400
 
-    # THE ULTIMATE FIX: Force direct HTTP formats (140 or 251) 
-    # and strictly ban m3u8/SABR fragmented formats.
+    # PERMANENT FIX OPTS
     ydl_opts = {
-        'format': '140/251/bestaudio[protocol!=m3u8][protocol!=m3u8_native]/best',
+        'format': '140/bestaudio',  # 140 is a stable, single-file M4A (No fragments)
+        'extractor_args': {'youtube': ['player_client=tv,ios']}, # TV client bypasses SABR
+        'source_address': '0.0.0.0',  # Forces IPv4 to avoid Cloud IPv6 bans
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
         'cookiefile': 'cookies.txt',
@@ -81,6 +82,6 @@ def get_file(filename):
     return jsonify({"error": "File not found"}), 404
 
 if __name__ == '__main__':
-    # Render requires port 10000 by default, or it reads the PORT env variable
+    # Render requires port 10000 by default
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
