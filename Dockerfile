@@ -1,8 +1,11 @@
-# Python 3.11 base image
 FROM python:3.11-slim
 
-# YAHAN CHANGE KIYA HAI: ffmpeg ke sath 'nodejs' bhi install kar rahe hain
-RUN apt-get update && apt-get install -y ffmpeg nodejs
+# Install ffmpeg, curl aur unzip (Deno ke liye zaroori)
+RUN apt-get update && apt-get install -y ffmpeg curl unzip
+
+# Deno JS Engine install karna
+RUN curl -fsSL https://deno.land/x/install/install.sh | sh
+ENV PATH="/root/.deno/bin:$PATH"
 
 # Set working directory
 WORKDIR /app
