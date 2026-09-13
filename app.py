@@ -31,13 +31,12 @@ def process():
     if not video_url:
         return jsonify({"error": "No URL provided"}), 400
 
-    # PURE ANDROID CLIENT - NO COOKIES - NO WEB PLAYER
     ydl_opts = {
         'format': 'm4a/bestaudio/best', 
-        'extractor_args': {'youtube': ['player_client=android']}, # Strictly Android
+        'extractor_args': {'youtube': ['player_client=android,ios']},
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
-        # COOKIE FILE YAHAN SE HATA DI GAYI HAI
+        'cookiefile': 'cookies.txt',  # <--- COOKIES WAPAS LAGA DI HAIN
         'postprocessors': [
             {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
             {'key': 'FFmpegThumbnailsConvertor', 'format': 'jpg'}
@@ -57,7 +56,6 @@ def process():
             # Crop to square
             square_thumb_path = crop_to_square(original_thumb_path)
             
-            # URL encode filenames so they don't break in the browser link
             mp3_filename = urllib.parse.quote(os.path.basename(mp3_path))
             img_filename = urllib.parse.quote(os.path.basename(square_thumb_path))
 
