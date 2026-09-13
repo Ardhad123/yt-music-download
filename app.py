@@ -37,7 +37,7 @@ def process():
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
         'cookiefile': 'cookies.txt',
-        'remote_components': 'npm,github',  # <--- FIX IS HERE: Permission for Challenge Solver
+        'remote_components': ['ejs:github'],  # <--- SYNTAX FIX (Bracket aur ejs: prefix lagaya hai)
         'postprocessors': [
             {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
             {'key': 'FFmpegThumbnailsConvertor', 'format': 'jpg'}
