@@ -33,10 +33,10 @@ def process():
     if not video_url:
         return jsonify({"error": "No URL provided"}), 400
 
-    # UPDATED YDL OPTS FOR YOUTUBE SABR/HLS STREAMING FIX
+    # STRICT YDL OPTS: Forces Android client to bypass Safari SABR issues completely
     ydl_opts = {
-        'format': 'bestaudio[protocol^=http]/bestaudio/best',
-        'extractor_args': {'youtube': ['player_client=ios,android']},
+        'format': 'bestaudio[ext=m4a]/bestaudio/best',
+        'extractor_args': {'youtube': ['player_client=android']},
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
         'cookiefile': 'cookies.txt',
