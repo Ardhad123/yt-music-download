@@ -31,11 +31,10 @@ def process():
     if not video_url:
         return jsonify({"error": "No URL provided"}), 400
 
-    # The Ultimate Anti-Ban ydl_opts
+    # Memory crash se bachne ke liye lightweight clients (no 'web')
     ydl_opts = {
         'format': 'm4a/bestaudio/best', 
-        # Adding web and ios along with android to bypass 403 Forbidden
-        'extractor_args': {'youtube': ['player_client=android,web,ios']}, 
+        'extractor_args': {'youtube': ['player_client=android,ios,tv']}, 
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
         'cookiefile': 'cookies.txt',  
