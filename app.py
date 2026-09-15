@@ -31,13 +31,15 @@ def process():
     if not video_url:
         return jsonify({"error": "No URL provided"}), 400
 
+    # The Ultimate Anti-Ban ydl_opts
     ydl_opts = {
         'format': 'm4a/bestaudio/best', 
-        'extractor_args': {'youtube': ['player_client=android,ios']},
+        # Adding web and ios along with android to bypass 403 Forbidden
+        'extractor_args': {'youtube': ['player_client=android,web,ios']}, 
         'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
         'writethumbnail': True,
-        'cookiefile': 'cookies.txt',
-        'remote_components': ['ejs:github'],  # <--- SYNTAX FIX (Bracket aur ejs: prefix lagaya hai)
+        'cookiefile': 'cookies.txt',  
+        'remote_components': ['ejs:github'], 
         'postprocessors': [
             {'key': 'FFmpegExtractAudio', 'preferredcodec': 'mp3', 'preferredquality': '192'},
             {'key': 'FFmpegThumbnailsConvertor', 'format': 'jpg'}
